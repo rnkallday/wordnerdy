@@ -1,0 +1,1 @@
+<iframe referrerpolicy="origin" scrolling="no" src="https://authory.com/rnkalllllday/embed?theme=dark&numItems=8&mode=compact&showSocialMedia=false&showHighlight=true&useCover=true" width="100%" height="800px" style="border-radius:18px;border:1px solid #DDDFE3" ></iframe>

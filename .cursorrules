@@ -1,0 +1,12 @@
+{
+  "projectRules": {
+    "name": "Portfolio Website",
+    "description": "A responsive portfolio website showcasing multimedia work",
+    "framework": "nextjs",
+    "styling": "tailwindcss",
+    ...
+  },
+  "agentInstructions": {
+    ...
+  }
+}
