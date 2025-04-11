@@ -21,6 +21,9 @@ const config = {
       sans: ['var(--font-subjectivity)', 'system-ui', 'sans-serif'],
     },
     extend: {
+      backgroundImage: {
+        'radial-mask': 'radial-gradient(circle at center, transparent 0%, transparent 45%, rgba(255, 255, 255, 0.15) 65%, rgba(255, 255, 255, 0.3) 100%)',
+      },
       fontWeight: {
         thin: '100',
         light: '300',

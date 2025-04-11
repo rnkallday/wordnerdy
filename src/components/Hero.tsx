@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useCallback, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import BackgroundIllustration from "./BackgroundIllustration";
 
 export default function Hero() {
-  const [phraseIndex, setPhraseIndex] = useState(0);
-  const [cycleComplete, setCycleComplete] = useState(false);
+  const [currentPhrase, setCurrentPhrase] = useState<string | null>(null);
+  const [availablePhrases, setAvailablePhrases] = useState<string[]>([]);
+  const isFirstRender = useRef(true);
   
   const phrases = [
     "a word nerd.",
@@ -44,60 +45,76 @@ export default function Hero() {
     "more than you'd expect.",
   ];
 
-  useEffect(() => {
-    if (cycleComplete) return;
-    
-    const fastCycleTimeout = setTimeout(() => {
-      const randomIndex = Math.floor(Math.random() * (phrases.length - 1)) + 1;
-      setPhraseIndex(randomIndex);
-      setCycleComplete(true);
-    }, 1500);
-    
-    const cycleInterval = setInterval(() => {
-      if (!cycleComplete) {
-        setPhraseIndex(prev => (prev + 1) % phrases.length);
+  const shuffleArray = useCallback((array: string[]) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  }, []);
+
+  const animatePhraseCycle = useCallback(() => {
+    // Get next phrase
+    setAvailablePhrases(prev => {
+      if (prev.length <= 1) {
+        const newShuffled = shuffleArray(phrases);
+        setCurrentPhrase(newShuffled[0]);
+        return newShuffled.slice(1);
       }
-    }, 100);
-    
-    return () => {
-      clearTimeout(fastCycleTimeout);
-      clearInterval(cycleInterval);
-    };
-  }, [cycleComplete, phrases.length]);
+      const [nextPhrase, ...remainingPhrases] = prev;
+      setCurrentPhrase(nextPhrase);
+      return remainingPhrases;
+    });
+  }, [phrases, shuffleArray]);
+
+  // Initialize on mount
+  useEffect(() => {
+    const shuffledPhrases = shuffleArray(phrases);
+    setCurrentPhrase(shuffledPhrases[0]);
+    setAvailablePhrases(shuffledPhrases.slice(1));
+  }, [shuffleArray, phrases]);
 
   return (
     <div className="relative w-full min-h-screen flex flex-col">
-      <BackgroundIllustration />
+      <BackgroundIllustration onAnimationComplete={animatePhraseCycle} />
 
-      <div className="relative flex-1 flex items-center justify-center pt-16 z-10">
-        <div className="max-w-[80rem] w-full mx-auto px-8">
-          <div className="grid grid-cols-12 gap-8 items-center p-8 bg-black/5 rounded-2xl backdrop-blur-sm">
-            <div className="col-span-5">
-              <h1 className="text-6xl font-bold tracking-tight">
-                Rian Kochel<br />
-                is...
-              </h1>
-            </div>
-            <div className="col-span-7">
-              <div className="relative h-24">
-                {phrases.map((phrase, index) => (
+      <div className="relative w-full h-screen flex flex-col items-stretch justify-between py-24 z-10">
+        {/* Static text - positioned 3/4 up from bottom */}
+        <div className="w-full max-w-[90rem] mx-auto px-8 mt-auto mb-24">
+          <h1 className="text-6xl font-bold tracking-tight text-left">
+            Rian Kochel<br />
+            is...
+          </h1>
+        </div>
+
+        {/* Animated text - positioned 3/4 from top */}
+        <div className="w-full max-w-[90rem] mx-auto px-8 mb-auto mt-24">
+          <div className="flex justify-end">
+            <div className="relative h-32 overflow-visible w-[800px]">
+              <AnimatePresence mode="wait">
+                {currentPhrase && (
                   <motion.p
-                    key={index}
-                    className={`absolute text-4xl ${
-                      phraseIndex === index ? 'block' : 'hidden'
-                    }`}
+                    key={currentPhrase}
+                    className="absolute right-0 text-[3.5rem] whitespace-nowrap"
                     initial={{ opacity: 0, y: 20 }}
-                    animate={
-                      phraseIndex === index
-                        ? { opacity: 1, y: 0 }
-                        : { opacity: 0, y: -20 }
-                    }
-                    transition={{ duration: 0.5 }}
+                    animate={{ 
+                      opacity: 1,
+                      y: 0
+                    }}
+                    exit={{ 
+                      opacity: 0,
+                      y: -20
+                    }}
+                    transition={{ 
+                      duration: 2,
+                      ease: "easeInOut"
+                    }}
                   >
-                    {phrase}
+                    {currentPhrase}
                   </motion.p>
-                ))}
-              </div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </div>
