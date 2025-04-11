@@ -6,8 +6,7 @@ import BackgroundIllustration from "./BackgroundIllustration";
 
 export default function Hero() {
   const [currentPhrase, setCurrentPhrase] = useState<string | null>(null);
-  const [availablePhrases, setAvailablePhrases] = useState<string[]>([]);
-  const isFirstRender = useRef(true);
+  const phrasesRef = useRef<string[]>([]);
   
   const phrases = [
     "a word nerd.",
@@ -54,30 +53,34 @@ export default function Hero() {
     return newArray;
   }, []);
 
-  const animatePhraseCycle = useCallback(() => {
-    // Get next phrase
-    setAvailablePhrases(prev => {
-      if (prev.length <= 1) {
+  const cyclePhrase = useCallback(() => {
+    // First set to null to create a gap
+    setCurrentPhrase(null);
+    
+    // Delay setting the new phrase to create a visual gap
+    setTimeout(() => {
+      if (phrasesRef.current.length <= 1) {
         const newShuffled = shuffleArray(phrases);
         setCurrentPhrase(newShuffled[0]);
-        return newShuffled.slice(1);
+        phrasesRef.current = newShuffled.slice(1);
+      } else {
+        const [nextPhrase, ...remaining] = phrasesRef.current;
+        setCurrentPhrase(nextPhrase);
+        phrasesRef.current = remaining;
       }
-      const [nextPhrase, ...remainingPhrases] = prev;
-      setCurrentPhrase(nextPhrase);
-      return remainingPhrases;
-    });
+    }, 2000); // 2 second gap
   }, [phrases, shuffleArray]);
 
   // Initialize on mount
   useEffect(() => {
     const shuffledPhrases = shuffleArray(phrases);
     setCurrentPhrase(shuffledPhrases[0]);
-    setAvailablePhrases(shuffledPhrases.slice(1));
-  }, [shuffleArray, phrases]);
+    phrasesRef.current = shuffledPhrases.slice(1);
+  }, []);
 
   return (
     <div className="relative w-full min-h-screen flex flex-col">
-      <BackgroundIllustration onAnimationComplete={animatePhraseCycle} />
+      <BackgroundIllustration onAnimationComplete={cyclePhrase} />
 
       <div className="relative w-full h-screen flex flex-col items-stretch justify-between py-24 z-10">
         {/* Static text - positioned 3/4 up from bottom */}
@@ -89,7 +92,7 @@ export default function Hero() {
         </div>
 
         {/* Animated text - positioned 3/4 from top */}
-        <div className="w-full max-w-[90rem] mx-auto px-8 mb-auto mt-24">
+        <div className="w-full max-w-[90rem] mx-auto px-8 mb-12 mt-auto">
           <div className="flex justify-end">
             <div className="relative h-32 overflow-visible w-[800px]">
               <AnimatePresence mode="wait">
@@ -107,7 +110,7 @@ export default function Hero() {
                       y: -20
                     }}
                     transition={{ 
-                      duration: 2,
+                      duration: 1.5,
                       ease: "easeInOut"
                     }}
                   >
