@@ -76,13 +76,6 @@ const subjectivity = localFont({
 export const metadata: Metadata = {
   title: 'Rian Kochel',
   description: 'Portfolio of Rian Kochel',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
-  themeColor: '#000000',
 }
 
 export default function RootLayout({
@@ -91,11 +84,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="dark scroll-smooth">
-      <body className={`${subjectivity.variable} font-sans antialiased min-h-screen bg-background text-foreground relative overflow-x-hidden selection:bg-primary/20 selection:text-primary`}>
-        <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_var(--tw-gradient-to)_100%)] from-background to-background/80 pointer-events-none" />
+    <html lang="en" className="dark">
+      <body className={`${subjectivity.variable} font-sans antialiased min-h-screen bg-background text-foreground relative overflow-x-hidden`}>
+        <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,_hsl(225_30%_12%)_0%,_hsl(225_30%_8%)_50%,_hsl(340_30%_15%)_100%)] pointer-events-none" />
         <Navigation />
-        <main className="relative pt-16 sm:pt-20">
+        <main className="relative pt-16">
           {children}
         </main>
       </body>

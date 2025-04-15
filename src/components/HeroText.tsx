@@ -13,22 +13,22 @@ const AnimatedLetter = ({ letter, delay }: { letter: string; delay: number }) =>
   return (
     <motion.span
       className="inline-block relative whitespace-pre"
-      initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+      initial={{ opacity: 0, y: 20, filter: 'blur(20px)' }}
       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       transition={{ 
-        duration: 1.5,
+        duration: 2.5,
         delay,
         ease: [0.22, 1, 0.36, 1],
-        filter: { duration: 2 }
+        filter: { duration: 3 }
       }}
     >
       {letter}
       <motion.span
-        className="absolute inset-0 blur-lg bg-white/20"
+        className="absolute inset-0 blur-xl bg-white/20"
         initial={{ opacity: 0 }}
         animate={{ opacity: [0, 0.5, 0.3] }}
         transition={{
-          duration: 2,
+          duration: 3,
           delay,
           times: [0, 0.5, 1],
           ease: "easeInOut"
@@ -48,8 +48,12 @@ const AnimatedText = ({ text, baseDelay = 0, staggerRange = 0.1 }: {
   return (
     <span className="relative inline-block whitespace-pre-wrap break-words">
       {letters.map((letter, index) => {
+        // Handle spaces with proper width
         if (letter === ' ') return <span key={index} className="inline-block w-[0.25em]">&nbsp;</span>
+        
+        // Calculate random delay within range
         const randomDelay = baseDelay + (Math.random() * staggerRange)
+        
         return (
           <AnimatedLetter 
             key={index} 
@@ -68,7 +72,7 @@ const HeroText = ({ title, subtitle, className = '' }: HeroTextProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true)
-    }, 500) // Reduced delay for better mobile experience
+    }, 13000) // 13 seconds delay
 
     return () => clearTimeout(timer)
   }, [])
@@ -83,24 +87,16 @@ const HeroText = ({ title, subtitle, className = '' }: HeroTextProps) => {
       transition={{ duration: 0.8, delay: 0.2 }}
     >
       <motion.h1 
-        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-3 sm:mb-4 md:mb-6 max-w-3xl mx-auto leading-tight px-4 sm:px-6"
+        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 max-w-3xl mx-auto leading-tight"
       >
-        <AnimatedText 
-          text={title}
-          baseDelay={0.1}
-          staggerRange={0.05}
-        />
+        {title}
       </motion.h1>
       
       {subtitle && (
         <motion.p 
-          className="text-sm sm:text-base md:text-lg lg:text-xl text-white/80 max-w-2xl mx-auto px-4 sm:px-6"
+          className="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mx-auto"
         >
-          <AnimatedText 
-            text={subtitle}
-            baseDelay={0.5}
-            staggerRange={0.03}
-          />
+          {subtitle}
         </motion.p>
       )}
     </motion.div>
