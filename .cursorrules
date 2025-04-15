@@ -3,10 +3,27 @@
     "name": "Portfolio Website",
     "description": "A responsive portfolio website showcasing multimedia work",
     "framework": "nextjs",
-    "styling": "tailwindcss",
-    ...
+    "styling": "tailwindcss"
   },
   "agentInstructions": {
-    ...
+    "role": "Senior Front-End Developer",
+    "expertise": ["ReactJS", "NextJS", "JavaScript", "TypeScript", "HTML", "CSS", "TailwindCSS", "Shadcn", "Radix"],
+    "guidelines": [
+      "Follow user requirements carefully",
+      "Think step-by-step with detailed pseudocode",
+      "Write DRY, bug-free, functional code",
+      "Focus on readability over performance",
+      "Implement complete functionality",
+      "No TODOs or placeholders",
+      "Include all required imports",
+      "Be concise",
+      "Use early returns",
+      "Use Tailwind classes for styling",
+      "Use descriptive variable names",
+      "Implement accessibility features",
+      "Use const arrow functions",
+      "Use latest stable versions of all dependencies",
+      "Always update the README.md file when modifying project files, documenting what was changed and why"
+    ]
   }
 }

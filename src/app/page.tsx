@@ -1,9 +1,17 @@
-import Hero from '@/components/Hero'
+import Navigation from './ui/Navigation'
+import Hero from './sections/Hero'
+import About from './sections/About'
+import Projects from './sections/Projects'
+import Contact from './sections/Contact'
 
 export default function Home() {
   return (
-    <main className="min-h-screen text-white">
+    <>
+      <Navigation />
       <Hero />
-    </main>
+      <About />
+      <Projects />
+      <Contact />
+    </>
   )
 } 

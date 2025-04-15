@@ -1,81 +1,17 @@
-import React from 'react'
-import type { Metadata } from 'next'
-import localFont from 'next/font/local'
-import './globals.css'
-import Navigation from '@/components/Navigation'
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
 
-// Load Subjectivity font family
-const subjectivity = localFont({
-  src: [
-    {
-      path: './fonts/Subjectivity-Thin.woff2',
-      weight: '100',
-      style: 'normal',
-    },
-    {
-      path: './fonts/Subjectivity-Light.woff2',
-      weight: '300',
-      style: 'normal',
-    },
-    {
-      path: './fonts/Subjectivity-Regular.woff2',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: './fonts/Subjectivity-Medium.woff2',
-      weight: '500',
-      style: 'normal',
-    },
-    {
-      path: './fonts/Subjectivity-Bold.woff2',
-      weight: '700',
-      style: 'normal',
-    },
-    {
-      path: './fonts/Subjectivity-ExtraBold.woff2',
-      weight: '800',
-      style: 'normal',
-    },
-    // Slanted (italic) variants
-    {
-      path: './fonts/Subjectivity-ThinSlanted.woff2',
-      weight: '100',
-      style: 'italic',
-    },
-    {
-      path: './fonts/Subjectivity-LightSlanted.woff2',
-      weight: '300',
-      style: 'italic',
-    },
-    {
-      path: './fonts/Subjectivity-RegularSlanted.woff2',
-      weight: '400',
-      style: 'italic',
-    },
-    {
-      path: './fonts/Subjectivity-MediumSlanted.woff2',
-      weight: '500',
-      style: 'italic',
-    },
-    {
-      path: './fonts/Subjectivity-BoldSlanted.woff2',
-      weight: '700',
-      style: 'italic',
-    },
-    {
-      path: './fonts/Subjectivity-ExtraBoldSlanted.woff2',
-      weight: '800',
-      style: 'italic',
-    }
-  ],
-  variable: '--font-subjectivity',
-  display: 'swap'
-})
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: 'Rian Kochel',
-  description: 'Portfolio of Rian Kochel',
+  title: "WordNerdy - Rian Kochel",
+  description: "Portfolio website showcasing multimedia work by Rian Kochel",
+  viewport: "width=device-width, initial-scale=1",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" }
+  ],
 }
 
 export default function RootLayout({
@@ -84,18 +20,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${subjectivity.variable} font-sans antialiased min-h-screen bg-background text-foreground relative overflow-x-hidden`}>
-        {/* Base background layer */}
-        <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,_hsl(340_30%_8%)_0%,_hsl(340_30%_12%)_50%,_hsl(340_30%_15%)_100%)] pointer-events-none" />
-        
-        {/* Content wrapper with proper z-indexing */}
-        <div className="relative z-10">
-          <Navigation />
-          <main className="relative pt-16">
-            {children}
-          </main>
-        </div>
+    <html lang="en" className="scroll-smooth">
+      <body className={`${inter.className} min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 antialiased`}>
+        <main className="relative">
+          {children}
+        </main>
       </body>
     </html>
   )

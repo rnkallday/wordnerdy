@@ -1,157 +1,81 @@
-# WordNerdy - Portfolio Website
+# WordNerdy Portfolio Website
 
-A modern, responsive portfolio website built with Next.js and TailwindCSS, showcasing multimedia work by Rian Kochel.
+A modern, responsive portfolio website showcasing multimedia work by Rian Kochel. Built with Next.js, TypeScript, and TailwindCSS.
 
-## Project Overview
+## Features
 
-This portfolio website features a clean, modern design with smooth animations and responsive layouts. The site is built using:
-
-- Next.js 14
-- TypeScript
-- TailwindCSS
-- Framer Motion for animations
-- Shadcn/ui components
-- Custom font (Subjectivity)
+- **Responsive Design**: Fully responsive layout that works on all device sizes
+- **Dark Mode Support**: Automatic dark mode based on system preferences
+- **Modern UI**: Clean, professional design with smooth transitions and animations
+- **Accessibility**: Built with accessibility in mind, following WCAG guidelines
+- **Performance**: Optimized for fast loading and smooth interactions
 
 ## Tech Stack
 
-- **Framework**: Next.js 14.1.3
+- **Framework**: Next.js 14
 - **Language**: TypeScript
 - **Styling**: TailwindCSS
-- **UI Components**: Shadcn/ui
+- **UI Components**: Custom components with Radix UI primitives
 - **Animations**: Framer Motion
-- **Font**: Subjectivity (custom font)
+- **Icons**: Lucide React
 
 ## Project Structure
 
 ```
-wordnerdy/
-├── src/
-│   ├── app/          # Next.js app directory (pages and layouts)
-│   │   ├── ui/      # Reusable UI components
-│   │   └── sections/ # Page sections
-│   ├── lib/         # Utility functions and configurations
-│   └── data/        # Data files and content
-├── public/          # Static assets
-├── fonts/          # Custom font files
-└── [config files]  # Various configuration files
+src/
+├── app/
+│   ├── layout.tsx       # Root layout with metadata and global styles
+│   ├── page.tsx         # Main page component
+│   ├── globals.css      # Global styles and Tailwind directives
+│   ├── ui/              # Reusable UI components
+│   │   └── Navigation.tsx
+│   └── sections/        # Page sections
+│       ├── Hero.tsx
+│       ├── About.tsx
+│       ├── Projects.tsx
+│       └── Contact.tsx
 ```
 
-## Key Features
+## Development
 
-### Dynamic Frame Layout System
-- Flexible frame system supporting video and HTML content
-- Hover effects and smooth transitions
-- SVG-based frame assets with responsive scaling
-- Integrated content previews for various platforms
-
-### UI Components
-1. **Hero Section**
-   - Responsive navigation with smooth transitions
-   - Dynamic text animations
-   - Background illustrations with parallax effects
-   - Mobile-optimized layout
-
-2. **Work Section**
-   - Grid layout for portfolio items
-   - Hover animations
-   - Responsive image handling
-   - Category filtering
-
-3. **About Section**
-   - Interactive timeline
-   - Skills showcase
-   - Responsive layout
-   - Smooth scroll animations
-
-4. **Contact Section**
-   - Contact form with validation
-   - Social media links
-   - Responsive design
-   - Interactive elements
-
-## Development Setup
-
-### Prerequisites
-- Node.js (Latest LTS version recommended)
-- npm (comes with Node.js)
-
-### Installation
-
-1. Clone the repository
-2. Install dependencies:
 ```bash
+# Install dependencies
 npm install
-```
 
-### Development
-Run the development server:
-```bash
+# Run development server
 npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
 ```
 
-The site will be available at [http://localhost:3000](http://localhost:3000)
+## File Updates
 
-## Technical Implementation Details
+### Layout and Configuration
+- **src/app/layout.tsx**: Added viewport meta tag, theme color configuration, and improved body styling
+- **tailwind.config.js**: Created with dark mode support, custom animations, and color variables
+- **src/app/globals.css**: Added Tailwind directives and CSS variables for theming
 
-### Frame System Configuration
-```typescript
-interface Frame {
-  id: number
-  content: {
-    type: 'video' | 'html'
-    src: string
-  }
-  defaultPos: { x: number; y: number; w: number; h: number }
-  corner: string
-  edgeHorizontal: string
-  edgeVertical: string
-  mediaSize: number
-  borderThickness: number
-  borderSize: number
-  isHovered: boolean
-}
-```
+### Components
+- **src/app/ui/Navigation.tsx**: Created responsive navigation with mobile menu
+- **src/app/sections/Hero.tsx**: Built hero section with call-to-action buttons
+- **src/app/sections/About.tsx**: Added about section with skills and expertise
+- **src/app/sections/Projects.tsx**: Created project showcase with cards
+- **src/app/sections/Contact.tsx**: Built contact form with validation
+- **src/app/page.tsx**: Assembled all sections into the main page
 
-### Font Configuration
-```typescript
-// Font variable implementation
-variable: '--font-subjectivity'
+## Future Enhancements
 
-// Tailwind configuration
-fontFamily: {
-  sans: ['var(--font-subjectivity)', 'system-ui', 'sans-serif']
-}
-```
-
-## Development Guidelines
-
-- Use TypeScript for type safety
-- Follow TailwindCSS best practices
-- Implement responsive design patterns
-- Ensure accessibility compliance
-- Optimize performance for all devices
-
-## Recent Updates
-
-### Responsive Design Improvements
-- Enhanced mobile navigation in Hero component
-- Optimized text sizing for different screen sizes
-- Improved spacing and layout on mobile devices
-- Added proper aria labels and accessibility features
-
-### Performance Optimizations
-- Optimized image loading
-- Improved animation performance
-- Enhanced mobile responsiveness
-- Better text scaling across devices
-
-### Technical Improvements
-- Resolved compilation errors related to component imports
-- Consolidated duplicate configurations
-- Properly set up path aliases
-- Implemented proper TypeScript support
+- Add form submission functionality
+- Implement image optimization
+- Add blog section
+- Integrate with a CMS
+- Add animations with Framer Motion
+- Implement SEO improvements
 
 ## License
 
-MIT License - feel free to use this project as a template for your own portfolio. 
+MIT 
