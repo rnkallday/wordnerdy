@@ -3,10 +3,14 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BackgroundIllustration from "./BackgroundIllustration";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Hero() {
   const [currentPhrase, setCurrentPhrase] = useState<string | null>(null);
   const phrasesRef = useRef<string[]>([]);
+  const cycleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const pathname = usePathname();
   
   const phrases = [
     "a word nerd.",
@@ -44,6 +48,13 @@ export default function Hero() {
     "more than you'd expect.",
   ];
 
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Work', path: '/work' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
+  ];
+
   const shuffleArray = useCallback((array: string[]) => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
@@ -54,11 +65,16 @@ export default function Hero() {
   }, []);
 
   const cyclePhrase = useCallback(() => {
+    // Clear any existing timeout
+    if (cycleTimeoutRef.current) {
+      clearTimeout(cycleTimeoutRef.current);
+    }
+
     // First set to null to create a gap
     setCurrentPhrase(null);
     
     // Delay setting the new phrase to create a visual gap
-    setTimeout(() => {
+    cycleTimeoutRef.current = setTimeout(() => {
       if (phrasesRef.current.length <= 1) {
         const newShuffled = shuffleArray(phrases);
         setCurrentPhrase(newShuffled[0]);
@@ -68,7 +84,7 @@ export default function Hero() {
         setCurrentPhrase(nextPhrase);
         phrasesRef.current = remaining;
       }
-    }, 2000); // 2 second gap
+    }, 2000); // Increased gap to 2 seconds for better readability
   }, [phrases, shuffleArray]);
 
   // Initialize on mount
@@ -76,49 +92,94 @@ export default function Hero() {
     const shuffledPhrases = shuffleArray(phrases);
     setCurrentPhrase(shuffledPhrases[0]);
     phrasesRef.current = shuffledPhrases.slice(1);
-  }, []);
+
+    // Set up interval for 7-second rotations (increased from 5)
+    const interval = setInterval(cyclePhrase, 7000);
+
+    // Cleanup function
+    return () => {
+      if (cycleTimeoutRef.current) {
+        clearTimeout(cycleTimeoutRef.current);
+      }
+      clearInterval(interval);
+    };
+  }, [cyclePhrase, shuffleArray, phrases]);
 
   return (
     <div className="relative w-full min-h-screen flex flex-col">
       <BackgroundIllustration onAnimationComplete={cyclePhrase} />
 
-      <div className="relative w-full h-screen flex flex-col items-stretch justify-between py-24 z-10">
-        {/* Static text - positioned 3/4 up from bottom */}
-        <div className="w-full max-w-[90rem] mx-auto px-8 mt-auto mb-24">
-          <h1 className="text-6xl font-bold tracking-tight text-left">
-            Rian Kochel<br />
-            is...
+      {/* Navigation */}
+      <div className="absolute top-0 left-0 right-0 z-20">
+        <div className="max-w-2xl mx-auto px-8 py-8">
+          <nav className="flex justify-center items-center space-x-8">
+            {navItems.map((item) => {
+              const isActive = pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  href={item.path}
+                  className="relative group"
+                >
+                  <span className={`text-sm font-medium transition-colors ${
+                    isActive ? 'text-white' : 'text-white/70 hover:text-white'
+                  }`}>
+                    {item.name}
+                  </span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNavIndicator"
+                      className="absolute -bottom-1 left-0 right-0 h-px bg-white"
+                      initial={false}
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+      </div>
+
+      {/* Centered content */}
+      <div className="relative w-full h-screen flex flex-col justify-between py-44 px-34 z-10">
+        {/* Top text */}
+        <div className="text-center">
+          <h1 className="text-4xl font-bold tracking-tight">
+            Rian Kochel is...
           </h1>
         </div>
-
-        {/* Animated text - positioned 3/4 from top */}
-        <div className="w-full max-w-[90rem] mx-auto px-8 mb-12 mt-auto">
-          <div className="flex justify-end">
-            <div className="relative h-32 overflow-visible w-[800px]">
-              <AnimatePresence mode="wait">
-                {currentPhrase && (
-                  <motion.p
-                    key={currentPhrase}
-                    className="absolute right-0 text-[3.5rem] whitespace-nowrap"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ 
-                      opacity: 1,
-                      y: 0
-                    }}
-                    exit={{ 
-                      opacity: 0,
-                      y: -20
-                    }}
-                    transition={{ 
-                      duration: 1.5,
+        
+        {/* Bottom rotating phrase */}
+        <div className="text-center">
+          <div className="relative h-24">
+            <AnimatePresence mode="wait">
+              {currentPhrase && (
+                <motion.p
+                  key={currentPhrase}
+                  className="text-[2.5rem] whitespace-nowrap font-bold text-white"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ 
+                    opacity: 1,
+                    y: 0
+                  }}
+                  exit={{ 
+                    opacity: 0,
+                    y: -20
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    ease: [0.4, 0, 0.2, 1],
+                    opacity: {
+                      duration: 2.5,
                       ease: "easeInOut"
-                    }}
-                  >
-                    {currentPhrase}
-                  </motion.p>
-                )}
-              </AnimatePresence>
-            </div>
+                    }
+                  }}
+                >
+                  {currentPhrase}
+                </motion.p>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
