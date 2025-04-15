@@ -84,12 +84,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${subjectivity.variable} font-sans antialiased min-h-screen`}>
+    <html lang="en" className="dark">
+      <body className={`${subjectivity.variable} font-sans antialiased min-h-screen bg-background text-foreground relative overflow-x-hidden`}>
+        <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_var(--tw-gradient-to)_100%)] from-background to-background/80 pointer-events-none" />
         <Navigation />
-        <div className="pt-16">
+        <main className="relative pt-16">
           {children}
-        </div>
+        </main>
       </body>
     </html>
   )
