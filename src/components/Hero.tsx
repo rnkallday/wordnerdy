@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { motion } from "framer-motion";
 import BackgroundIllustration from "./BackgroundIllustration";
 import Link from 'next/link';
+import HeroText from './HeroText';
 
 export default function Hero() {
   const pathname = usePathname();
@@ -52,8 +53,11 @@ export default function Hero() {
       </div>
 
       {/* Centered content */}
-      <div className="relative w-full h-screen flex flex-col justify-between py-44 px-34 z-10">
-        {/* Empty space for future content */}
+      <div className="relative w-full h-screen flex flex-col justify-center items-center py-44 px-4 z-10">
+        <HeroText 
+          
+          title="A portfolio of multimedia work by Rian Kochel"
+        />
       </div>
     </div>
   );

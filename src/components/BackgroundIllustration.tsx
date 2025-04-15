@@ -66,7 +66,6 @@ export default function BackgroundIllustration({ onAnimationComplete }: Backgrou
               <video
                 src="/videos/herobackgroundanimation.mp4"
                 autoPlay
-                loop
                 muted
                 playsInline
                 className="w-full h-full object-cover mix-blend-screen brightness-125 contrast-125 rounded-3xl"
