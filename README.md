@@ -14,9 +14,9 @@ A modern, responsive portfolio website showcasing multimedia work by Rian Kochel
 
 - **Framework**: Next.js 14
 - **Language**: TypeScript
-- **Styling**: TailwindCSS
+- **Styling**: TailwindCSS with custom design system
 - **UI Components**: Custom components with Radix UI primitives
-- **Animations**: Framer Motion
+- **Animations**: Custom animations with CSS keyframes
 - **Icons**: Lucide React
 
 ## Project Structure
@@ -26,7 +26,7 @@ src/
 ├── app/
 │   ├── layout.tsx       # Root layout with metadata and global styles
 │   ├── page.tsx         # Main page component
-│   ├── globals.css      # Global styles and Tailwind directives
+│   ├── globals.css      # Global styles, design system, and animations
 │   ├── ui/              # Reusable UI components
 │   │   └── Navigation.tsx
 │   └── sections/        # Page sections
@@ -35,6 +35,26 @@ src/
 │       ├── Projects.tsx
 │       └── Contact.tsx
 ```
+
+## Design System
+
+The project uses a comprehensive design system built with CSS variables and TailwindCSS:
+
+### Colors
+- Primary, secondary, and accent color palettes
+- Dark mode support with appropriate contrast ratios
+- Muted and border colors for subtle UI elements
+- Card and popover specific colors
+
+### Animations
+- Fade-in animation for smooth content appearance
+- Slide-up and slide-down animations for dynamic content
+- Customizable timing and easing functions
+
+### Responsive Utilities
+- Container classes for consistent layout widths
+- Section padding utilities for vertical spacing
+- Breakpoint-specific adjustments
 
 ## Development
 
@@ -57,7 +77,11 @@ npm start
 ### Layout and Configuration
 - **src/app/layout.tsx**: Added viewport meta tag, theme color configuration, and improved body styling
 - **tailwind.config.js**: Created with dark mode support, custom animations, and color variables
-- **src/app/globals.css**: Added Tailwind directives and CSS variables for theming
+- **src/app/globals.css**: Added comprehensive design system with:
+  - Complete color palette for light/dark modes
+  - Animation utilities and keyframes
+  - Responsive design helpers
+  - Typography and base styles
 
 ### Components
 - **src/app/ui/Navigation.tsx**: Created responsive navigation with mobile menu
@@ -73,7 +97,7 @@ npm start
 - Implement image optimization
 - Add blog section
 - Integrate with a CMS
-- Add animations with Framer Motion
+- Add more animation variants
 - Implement SEO improvements
 
 ## License
