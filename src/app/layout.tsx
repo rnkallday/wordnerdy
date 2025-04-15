@@ -86,11 +86,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${subjectivity.variable} font-sans antialiased min-h-screen bg-background text-foreground relative overflow-x-hidden`}>
-        <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,_hsl(225_30%_12%)_0%,_hsl(225_30%_8%)_50%,_hsl(340_30%_15%)_100%)] pointer-events-none" />
-        <Navigation />
-        <main className="relative pt-16">
-          {children}
-        </main>
+        {/* Base background layer */}
+        <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,_hsl(340_30%_8%)_0%,_hsl(340_30%_12%)_50%,_hsl(340_30%_15%)_100%)] pointer-events-none" />
+        
+        {/* Content wrapper with proper z-indexing */}
+        <div className="relative z-10">
+          <Navigation />
+          <main className="relative pt-16">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   )
